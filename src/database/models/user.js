@@ -1,14 +1,10 @@
 const user = (sequelize, DataTypes) => {
-  const user = sequelize.define("Model", {
+  const user = sequelize.define("User", {
     id: DataTypes.NUMBER,
     displayName: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     image: DataTypes.STRING,
-  },
-  {
-    underscored: true,
-    tableName: 'Users'
   })
 
   return user;
