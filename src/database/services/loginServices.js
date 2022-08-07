@@ -5,10 +5,6 @@ const loginServices = async (email, password) => {
   const validateLogin = await loginValidate(email, password);
   const validateUser = await userValidate(email, password);
 
-  // console.log('========= LOGIN SERVICES ============');
-  // console.log('validateLogin', validateLogin);
-  // console.log('validateUser', validateUser);
-
   if (!validateLogin) {
     return {
       code: 400,
