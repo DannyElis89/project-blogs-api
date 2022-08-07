@@ -3,7 +3,7 @@ const user = (sequelize, DataTypes) => {
     id: {
       type: DataTypes.NUMBER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     displayName: DataTypes.STRING,
     email: DataTypes.STRING,
@@ -11,7 +11,7 @@ const user = (sequelize, DataTypes) => {
     image: DataTypes.STRING,
   },{
     timestamps: false
-})
+  })
 
   return user;
 };
