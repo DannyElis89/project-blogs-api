@@ -3,17 +3,19 @@ const postCategory = (sequelize, DataTypes) => {
     postId: {
       type: DataTypes.INTEGER,
       primaryKey: true,
+      foreignKey: true,
       references: {
-          model: 'BlogPost',
-          key: 'id'
+        model: 'BlogPost',
+        key: 'id'
       }
     },
     categoryId: {
       type: DataTypes.INTEGER,
       primaryKey: true,
+      foreignKey: true,
       references: {
-          model: 'Category',
-          key: 'id'
+        model: 'Category',
+        key: 'id'
       }
     }
   }, {
@@ -22,18 +24,17 @@ const postCategory = (sequelize, DataTypes) => {
   });
 
   postCategories.associate = (models) => {
-    models.Category.belongsToMany(models.BlogPost, {
-      foreignKey: 'postId',
-      as: 'BlogPosts',
-      through: postCategories,
-      otherKey: 'categoryId',
-    });
-
     models.BlogPost.belongsToMany(models.Category, {
-      foreignKey: 'categoryId',
-      as: 'Categories',
+      foreignKey: 'postId',
+      otherKey: 'categoryId',
+      as: 'categories',
       through: postCategories,
+    }),
+    models.Category.belongsToMany(models.BlogPost, {
+      foreignKey: 'categoryId',
       otherKey: 'postId',
+      as: 'blogPosts',
+      through: postCategories,
     });
   }
 

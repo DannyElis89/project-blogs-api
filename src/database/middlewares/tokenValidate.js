@@ -13,7 +13,7 @@ const tokenValidate = (req, res, next) => {
     req.user = payload;
     next();
 } catch (err) {
-        return res.status(401).json({ message: 'Expired or invalid token' });
+    return res.status(401).json({ message: 'Expired or invalid token' });
 }
 };
 

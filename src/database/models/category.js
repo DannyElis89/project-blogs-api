@@ -5,9 +5,12 @@ const category = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    name: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING
+    },
   }, {
     timestamps: false,
+    tableName: 'Categories',
   })
   return category;
 }

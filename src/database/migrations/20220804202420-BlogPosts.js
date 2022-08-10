@@ -1,3 +1,7 @@
+'use strict';
+
+const { DATE } = require("sequelize");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("BlogPosts", {
@@ -22,14 +26,18 @@ module.exports = {
           model:'Users',
           key:'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       published: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: new Date(),
       },
       updated: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: new Date(),
       }
     });
   },
