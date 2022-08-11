@@ -8,9 +8,15 @@ const {
 const postValidate = require('../middlewares/postValidate');
 
 const getById = async (id) => {
-  const result = await BlogPost.findOne({ where: id });
+  const result = await BlogPost.findOne({
+    where: { id },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories' }],
+  });
   // console.log('==================================================');
   // console.log('result do getById', result);
+  if (!result) return { code: 404, message: 'Post does not exist' };
   return result;
 };
 
