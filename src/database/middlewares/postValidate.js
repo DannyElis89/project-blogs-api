@@ -1,20 +1,9 @@
 const {
-  User,
+  // User,
   // BlogPost,
   Category,
   // PostCategory,
 } = require('../models');
-// const userServices = require('../services/userServices');
-
-const emailId = async (email) => {
-  const users = await User.findAll();
-  const arrUsers = [];
-  users.forEach((elem) => arrUsers.push(elem.dataValues));
-
-  const usersFiltered = arrUsers.filter((el) => el.email === email);
-
-  return usersFiltered[0];
-};
 
 const requestContent = (title, content, categoryIds) => {
   if (!title || !content || !categoryIds) return false;
@@ -38,5 +27,4 @@ const requestCategoryId = async (categoryIds) => {
 module.exports = {
   requestContent,
   requestCategoryId,
-  emailId,
 };
