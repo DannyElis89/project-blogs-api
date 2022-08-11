@@ -37,9 +37,13 @@ const getById = async (req, res) => {
   return res.status(200).json(result);
 };
 
-const update = async (req, res) => {
+const updatePost = async (req, res) => {
   const { title, content } = req.body;
-  const result = await postServices.update({ title, content });
+  const { id } = req.params;
+  const { data } = req.user;
+  // console.log('================================');
+  // console.log(data);
+  const result = await postServices.updatePost(title, content, id, data);
 
   if (result.code || result.message) {
     const { code, message } = result;
@@ -53,5 +57,5 @@ module.exports = {
   createPost,
   getAll,
   getById,
-  update,
+  updatePost,
 };

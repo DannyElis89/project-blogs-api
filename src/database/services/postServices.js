@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const config = require('../config/config');
 
 const sequelize = new Sequelize(config.development);
@@ -68,13 +69,34 @@ const getAll = async () => {
   return result;
 };
 
-// const update = async ({ title, content }) => {
+const updatePost = async (title, content, id, email) => {
+  if (!title || !content) return { code: 400, message: 'Some required fields are missing' };
 
-// };
+  const user = await User.findOne({ where: { email } });
+
+  const post = await BlogPost.findAll({
+    where: { [Op.and]: [{ id }, { userId: user.id }] } });
+
+  if (post.length < 1) return { code: 401, message: 'Unauthorized user' };
+  // console.log('====================================');
+  // console.log('post', post);
+
+  await BlogPost.update({ title, content }, { where: { id } });
+
+  const result = await BlogPost.findOne({
+    where: { id },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', attributes: ['id', 'name'] },
+    ],
+  });
+  console.log('result', result);
+  return result;
+};
 
 module.exports = {
   createPost,
   getAll,
   getById,
-  // update,
+  updatePost,
 };
