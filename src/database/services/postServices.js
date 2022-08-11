@@ -94,9 +94,44 @@ const updatePost = async (title, content, id, email) => {
   return result;
 };
 
+const deletePost = async (id, email) => {
+  const postSearch = await BlogPost.findOne({ where: { id } });
+  if (!postSearch) return { code: 404, message: 'Post does not exist' };
+
+  const user = await User.findOne({ where: { email } });
+  const post = await BlogPost.findAll({
+    where: { [Op.and]: [{ id }, { userId: user.id }] } });
+
+  if (post.length < 1) return { code: 401, message: 'Unauthorized user' };
+
+  const remove = await BlogPost.destroy({ where: { id } });
+
+  return remove;
+};
+
+const search = async (query) => {
+  const result = await BlogPost.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.like]: `%${query}%` } },
+        { content: { [Op.like]: `%${query}%` } },
+      ],
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', attributes: ['id', 'name'] },
+    ],
+
+  });
+
+  return result;
+};
+
 module.exports = {
   createPost,
   getAll,
   getById,
   updatePost,
+  deletePost,
+  search,
 };
