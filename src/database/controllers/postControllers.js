@@ -41,8 +41,7 @@ const updatePost = async (req, res) => {
   const { title, content } = req.body;
   const { id } = req.params;
   const { data } = req.user;
-  // console.log('================================');
-  // console.log(data);
+
   const result = await postServices.updatePost(title, content, id, data);
 
   if (result.code || result.message) {
@@ -56,8 +55,6 @@ const updatePost = async (req, res) => {
 const deletePost = async (req, res) => {
   const { id } = req.params;
   const { data } = req.user;
-  // console.log('================================');
-  // console.log(data);
 
   const result = await postServices.deletePost(id, data);
 
